@@ -1,0 +1,57 @@
+name: "Flutter Test CI Template"
+description: "CI template that sets up a Flutter project for testing"
+
+inputs:
+  java_version:
+    description: "Specify Java Version"
+    required: true
+  coverage_path:
+    description: "Coverage file"
+    required: true
+  exclude:
+    description: "File to exclude in coverage"
+    required: true
+  min_coverage: 
+    description: "Minimum test coverage"   
+    required: true 
+
+runs:
+  using: "composite"
+  steps:
+      - name: "checkout"
+        uses: actions/checkout@v1
+
+      - name: Setup Java Environment
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{java_version}}
+      
+      - name: Setup the flutter environment
+        uses: subosito/flutter-action@v2
+      
+      - name: Get flutter dependencies
+        shell: bash
+        run: flutter pub get
+
+      - name: Run code generation
+        shell: bash
+        run: flutter pub pub run build_runner build --delete-conflicting-outputs
+      
+      - name: Run tests
+        shell: bash
+        run: flutter test --no-sound-null-safety --coverage
+        uses: codecov/codecov-action@v1
+        with:
+          file: ${{coverage_path}}
+
+      - name: Check test coverage
+        uses: VeryGoodOpenSource/very_good_coverage@v1.2.0
+        with:
+          path: ${{coverage_path}}
+          min_coverage: ${{min_coverage}}
+          exclude: ${{exclude}}
+            
+
+        
+
+    
