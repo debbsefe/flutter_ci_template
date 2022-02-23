@@ -41,14 +41,14 @@ runs:
       shell: bash
       run: flutter test --no-sound-null-safety --coverage
 
-    - name: Generate coverage report
-      uses: codecov/codecov-action@v1
-      with:
-        file: ${{coverage_path}}
+    # - name: Generate coverage report
+    #   uses: codecov/codecov-action@v1
+    #   with:
+    #     file: ${{coverage_path}}
 
-    - name: Check test coverage
-      uses: VeryGoodOpenSource/very_good_coverage@v1.2.0
-      with:
-        path: ${{coverage_path}}
-        min_coverage: ${{min_coverage}}
-        exclude: ${{exclude}}
+    # - name: Check test coverage
+    #   uses: VeryGoodOpenSource/very_good_coverage@v1.2.0
+    #   with:
+    #     path: ${{coverage_path}}
+    #     min_coverage: ${{min_coverage}}
+    #     exclude: ${{exclude}}
